@@ -1,5 +1,3 @@
-
-
 //testDate		產生今日日期字串
 
 import java.util.Calendar;
@@ -30,5 +28,4 @@ public class dateUtil
 	{
 		return yearUtil() + a + monthUtil() + a + dayUtil() ;
 	}
-	
 }

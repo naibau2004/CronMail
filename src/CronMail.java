@@ -4,53 +4,32 @@ public class CronMail {
 
 	private static String cmdLine ;
 	private static String errorLogPath ;
-	private static String alertTitle ;
+	private static String jobName ;
 	private static String mailTo ;
-	private static String okTitle ;
 	
     public static void main ( String [] args ){
-
-    	if (args.length == 4){
+  		
+    	if ( args.length == 4 ){
     		
     		cmdLine = args[0] ;
     		errorLogPath = args[1] ;
-    		alertTitle = args[2] ;
+    		jobName = args[2] ;
     		mailTo = args[3] ;
-    		
-        	cronMail (cmdLine , errorLogPath , alertTitle ,  mailTo );
-        	
+        	cronMail (cmdLine , errorLogPath );
         	File logFile = new File (errorLogPath) ;
         	
         	if ( (logFile.exists()) && !(logFile.length() == 0) ){
-        		sendAlert () ;
-        	}
-        	
-    	}else if (args.length == 5){
-    		
-    		cmdLine = args[0] ;
-    		errorLogPath = args[1] ;
-    		alertTitle = args[2] ;
-    		okTitle = args[3] ;
-    		mailTo = args[4] ;
-    		
-        	cronMail (cmdLine , errorLogPath , alertTitle , okTitle ,  mailTo );
-        	
-        	File logFile = new File (errorLogPath);
-        	
-        	if (logFile.exists() && !(logFile.length() == 0)){
         		sendAlert () ;
         	}else{
         		sendOK() ;
         	}
         	
-    	}else {
-    		
+    	}else{
     		System.out.println("Argment Error !");
-    		
     	}
     }
 
-    private static void cronMail (String cmdLine , String errorLogPath ,String alertTitle , String mailTo ){
+    private static void cronMail (String cmdLine , String errorLogPath ){
 
     	String [] cmdArray = new String[3] ;
     	cmdArray[0] = ("/bin/sh");
@@ -63,37 +42,21 @@ public class CronMail {
                 process.waitFor();
 
         	}catch (Exception e){
-                System.out.println("CmdLine4 Error");
+                System.out.println("CmdLine Error");
                 e.printStackTrace();
         	}
     }
 
-	private static void cronMail (String cmdLine , String errorLogPath , String alertTitle , String okTitle , String mailTo ){
-    	String [] cmdArray = new String[3] ;
-    	cmdArray[0] = ("/bin/sh");
-    	cmdArray[1] = ("-c");
-    	cmdArray[2] = (cmdLine + " 2> " + errorLogPath) ;
-    	
-    	try{
-            Process process = Runtime.getRuntime().exec(cmdArray);
-            process.waitFor();
-
-    	}catch (Exception e){
-            System.out.println("CmdLine5 Error");
-            e.printStackTrace();
-            
-    	}
-	}
-
 	private static void sendAlert (){
+		String jobStatus = "\"" + jobName + " : Error!\"" ;
+	
 		String [] mailArray = new String [3] ;
 		mailArray[0] = ("/bin/sh");
 		mailArray[1] = ("-c");
-		mailArray[2] = ("mail -s" + alertTitle + " " + mailTo + " < " + errorLogPath ) ;
+		mailArray[2] = ("mail -s" + jobStatus + " " + mailTo + " < " + errorLogPath ) ;
 		
 		try {
 			Process process = Runtime.getRuntime().exec(mailArray) ;
-			process.waitFor();
 		
 		}catch (Exception e){
 			System.out.println("mailAlertArray Error");
@@ -112,14 +75,16 @@ public class CronMail {
 	}
 	
 	private static void sendOK (){
+		String jobStatus = "\"" + jobName + " : OK!\"" ;
+		
 		String [] mailArray = new String [3] ;
 		mailArray[0] = ("/bin/sh");
 		mailArray[1] = ("-c");
-		mailArray[2] = ("mail -s" + okTitle + " " + mailTo ) ;
+		mailArray[2] = ("mail -s" + jobStatus + " " + mailTo ) ;
 		
 		try {
 			Process process = Runtime.getRuntime().exec(mailArray) ;
-		
+			
 		}catch (Exception e){
 			System.out.println("mailOKArray Error");
 			e.printStackTrace();
