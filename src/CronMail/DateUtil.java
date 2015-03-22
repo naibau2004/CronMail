@@ -3,7 +3,7 @@ package CronMail;
 
 import java.util.Calendar;
 
-public class dateUtil
+public class DateUtil
 {
 	private static Calendar cal = Calendar.getInstance() ;
 	
