@@ -15,7 +15,8 @@ public class CronMail {
     		errorLogPath = args[1] ;
     		jobName = args[2] ;
     		mailTo = args[3] ;
-        	cronMail (cmdLine , errorLogPath );
+    		
+        	cmdStart (cmdLine , errorLogPath );
         	File logFile = new File (errorLogPath) ;
         	
         	if ( (logFile.exists()) && !(logFile.length() == 0) ){
@@ -29,14 +30,13 @@ public class CronMail {
     	}
     }
 
-    private static void cronMail (String cmdLine , String errorLogPath ){
+    private static void cmdStart (String cmdLine , String errorLogPath ){
 
     	String [] cmdArray = new String[3] ;
     	cmdArray[0] = ("/bin/sh");
     	cmdArray[1] = ("-c");
     	cmdArray[2] = (cmdLine + " 2> " + errorLogPath) ;
-    	
-
+    
         	try{
                 Process process = Runtime.getRuntime().exec(cmdArray);
                 process.waitFor();
