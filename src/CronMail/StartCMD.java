@@ -17,7 +17,8 @@ public class StartCMD {
 		String [] cmdArray = new String[3] ;
 		cmdArray[0] = ("/bin/sh");
     	cmdArray[1] = ("-c");
-    	cmdArray[2] = (cmdLine + " 2> " + errorLogPath) ;
+    	//cmdArray[2] = (cmdLine + " 2> " + errorLogPath) ;
+    	cmdArray[2] = (cmdLine) ;
 		Path p1 = Paths.get(errorLogPath);
 		boolean checkFile = Files.exists(p1) ;
 		
@@ -25,9 +26,9 @@ public class StartCMD {
 			System.out.println ("log file can not access") ;
 			return -100 ;
 		}
-    	
+    	Process proc = null ;
     	try{
-    		Process proc = Runtime.getRuntime().exec(cmdArray);
+    		proc = Runtime.getRuntime().exec(cmdArray);
 			InputStream stderr = proc.getErrorStream();
 			InputStreamReader isr = new InputStreamReader(stderr);
 			BufferedReader br = new BufferedReader(isr);
@@ -46,6 +47,15 @@ public class StartCMD {
         	}
 				
     	}catch (Exception e){
+//    		try {
+//				proc.getInputStream().close();
+//				proc.getOutputStream().close();
+//				proc.getErrorStream().close();
+//			} catch (IOException e2) {
+//				// TODO Auto-generated catch block
+//				e2.printStackTrace();
+//			}
+    		  		
     		String except = e.getLocalizedMessage() + "\n" ;
 			try {
 				Files.write (p1 , except.getBytes(), StandardOpenOption.APPEND);
