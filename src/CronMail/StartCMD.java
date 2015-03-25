@@ -46,7 +46,7 @@ public class StartCMD {
 		return 0 ;
 	}
 	
-	public int linux (String cmdPath){
+	public int linuxCMD (String cmdPath){
 		int logStatus = checkErrLogStatus (getErrLogPath()) ;
 		String [] cmdArray = new String[3] ;
 		cmdArray[0] = ("/bin/sh");
