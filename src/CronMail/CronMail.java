@@ -8,6 +8,7 @@ public class CronMail {
 		String log = args[1] ;
 		
 		StartCMD sc = new StartCMD (cmd,log);
+		
 		int logStatus = sc.checkErrLogStatus() ;
 		
 		if ( logStatus == -1){
@@ -20,6 +21,7 @@ public class CronMail {
 		}else{
 			sc.linuxCMD();
 		}
+		
 		
 
 	}
