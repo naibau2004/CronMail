@@ -1,119 +1,72 @@
 package CronMail;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class StartCMD {
 
 	private String cmdPath ;
 	private String errLogPath ;
+	private int logStatus ;
 	
-	String getCmdPath() {
-		return cmdPath;
-	}
-
-	String getErrLogPath() {
-		return errLogPath;
-	}
-
 	public StartCMD (String cmdPath , String errLogPath){
 		this.cmdPath = cmdPath ;
 		this.errLogPath = errLogPath ;
 	}
 	
-	private int checkErrLogStatus (String errLogPath){
-		int logStatus = 0 ;
-		File logFile = new File (errLogPath) ;
+	public int checkErrLogStatus (){
+		Path logFile = Paths.get(errLogPath) ;
 		
-		if (logFile.exists() == false){
+		if (Files.exists(logFile) == false){
 			try {
-				logFile.createNewFile();
+				Files.createFile(logFile);
 			} catch (IOException e) {
 				return -1 ;
 			}
 		}	
 		
-		if ( logFile.canRead() == false){
+		if ( Files.isReadable(logFile) == false){
 			return logStatus = -2 ;
 		}
 		
-		if ( logFile.canWrite() == false){
+		if ( Files.isWritable(logFile) == false){
 			return logStatus = -3 ;
 		}
-		return 0 ;
+		return logStatus ;
 	}
 	
-	public int linuxCMD (String cmdPath){
-		int logStatus = checkErrLogStatus (getErrLogPath()) ;
+	public int linuxCMD (){
 		String [] cmdArray = new String[3] ;
 		cmdArray[0] = ("/bin/sh");
     	cmdArray[1] = ("-c");
     	cmdArray[2] = (cmdPath) ;
+    	Path p1 = Paths.get(errLogPath);
     	
-    	if (logStatus != 0){
+		Process proc = null ;
+		String line = null ;
+    	try {
+    		proc = Runtime.getRuntime().exec(cmdArray);
+    		InputStream stderr = proc.getErrorStream();
+    		InputStreamReader isr = new InputStreamReader(stderr);
+    		BufferedReader br = new BufferedReader(isr);
+    		
+			while ((line = br.readLine()) != null){
+				String next = line + "\n" ;
+				Files.write (p1 , next.getBytes(), StandardOpenOption.APPEND);
+			}
+				
+    	}catch (Exception e ){
+    		e.printStackTrace();
     		return -1 ;
     	}
     	
-		
 		return 0;
 	}
-	
-	
-	
-//	public int start (String cmdLine , String errorLogPath) {
-//		
-//		String [] cmdArray = new String[3] ;
-//		cmdArray[0] = ("/bin/sh");
-//    	cmdArray[1] = ("-c");s
-//    	cmdArray[2] = (cmdLine) ;
-//		Path p1 = Paths.get(errorLogPath);
-//		boolean checkFile = Files.exists(p1) ;
-//		
-//		if ( checkFile == false ){
-//			System.out.println ("log file can not access") ;
-//			return -100 ;
-//		}
-//    	Process proc = null ;
-//    	try{
-//    		proc = Runtime.getRuntime().exec(cmdArray);
-//			InputStream stderr = proc.getErrorStream();
-//			InputStreamReader isr = new InputStreamReader(stderr);
-//			BufferedReader br = new BufferedReader(isr);
-//			
-//			String line = null ;	
-//			while ((line = br.readLine()) != null){
-//				String next = line + "\n" ;
-//				Files.write (p1 , line.getBytes(), StandardOpenOption.APPEND);
-//			}
-//			
-//			File logFile = new File (errorLogPath) ;
-//        	if ( logFile.length() != 0){
-//        		return -11 ;
-//        	}else{
-//        		return 0 ;
-//        	}
-//				
-//    	}catch (Exception e){
-//    		try {
-//				proc.getInputStream().close();
-//				proc.getOutputStream().close();
-//				proc.getErrorStream().close();
-//			} catch (IOException e2) {
-//				// TODO Auto-generated catch block
-//				e2.printStackTrace();
-//			}
-//    		  		
-//    		String except = e.getLocalizedMessage() + "\n" ;
-//			try {
-//				Files.write (p1 , except.getBytes(), StandardOpenOption.APPEND);
-//				return -12 ;
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//				return -101 ;
-//			}
-//    	}
-//	}
 }
