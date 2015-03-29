@@ -11,7 +11,7 @@ public class CronMail {
 		String cmd ;
 		String jobName ;
 		String mail ;
-		int jobStatus ;
+		int jobStatus = -1 ;
 		
 		cmd = args[0] ;
 		jobName = args[1] ;
@@ -21,9 +21,11 @@ public class CronMail {
 		int returnNum = sc.checkErrLogStatus();
 		
 		if ( returnNum == 0){
-			jobStatus = sc.linuxCMD() ;
+			jobStatus = sc.systemCMD() ;
 		}else {
 			System.out.println("Log file can not access !");
 		}
+		
+		sc.jobReturn(jobStatus) ;
 	}
 }

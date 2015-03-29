@@ -38,7 +38,8 @@ public class StartCMD {
 		return tempReturn ;
 	}
 	
-	public int linuxCMD (){
+	public int systemCMD (){
+		int returnCode = -1 ;
 		String [] cmdArray = new String[3] ;
 		cmdArray[0] = ("/bin/sh");
     	cmdArray[1] = ("-c");
@@ -51,19 +52,25 @@ public class StartCMD {
     		proc = Runtime.getRuntime().exec(cmdArray);
     		InputStream stderr = proc.getErrorStream();
     		InputStreamReader isr = new InputStreamReader(stderr);
-    		BufferedReader br = new BufferedReader(isr);	
+    		BufferedReader br = new BufferedReader(isr);
+	
 			while ((line = br.readLine()) != null){
-
 				String next = line + "\n" ;
 				Files.write (log , next.getBytes(), StandardOpenOption.APPEND);
 			}
 			
+			if (Files.size(log) == 0 ){
+				returnCode = 0 ;
+			}
+			
 			reNameLog () ;
+			
     	}catch (Exception e ){
     		e.printStackTrace();
-    		return -1 ;
+    		return returnCode ;
     	}
-		return 0;
+
+		return returnCode ;
 	}
 	
 	private void reNameLog (){	
@@ -79,4 +86,29 @@ public class StartCMD {
 		}
 	}
 	
+	public void jobReturn (int returnCode){
+		checkCreate cc = new checkCreate () ;
+		String jobListPath = logDir + "/" + "jobList" ;
+		Path pathTemp = Paths.get(jobListPath) ;
+		String okStatus = jobName + " : OK " + "\n" ;
+		String errStatus = jobName + " : error " + "\n" ;
+		
+		if ( ! (cc.fileCheck(jobListPath, true) == 0) ){
+			System.out.println("can not create jobList !");
+		}else{
+			if ( returnCode == 0){
+				try {
+					Files.write(pathTemp, okStatus.getBytes() , StandardOpenOption.APPEND );
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					Files.write(pathTemp, errStatus.getBytes() , StandardOpenOption.APPEND );
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
