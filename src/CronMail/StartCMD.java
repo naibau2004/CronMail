@@ -53,14 +53,11 @@ public class StartCMD {
     		InputStream stderr = proc.getErrorStream();
     		InputStreamReader isr = new InputStreamReader(stderr);
     		BufferedReader br = new BufferedReader(isr);
+    		returnCode = proc.waitFor() ;
 	
 			while ((line = br.readLine()) != null){
 				String next = line + "\n" ;
 				Files.write (log , next.getBytes(), StandardOpenOption.APPEND);
-			}
-			
-			if (Files.size(log) == 0 ){
-				returnCode = 0 ;
 			}
 			
 			reNameLog () ;
