@@ -10,7 +10,7 @@ public class CronMail {
 		
 		String cmd = args[0] ;			//Job's CMD
 		String jobName = args[1] ;		//Job's Name
-		String mail = args[2] ;			//Alert Mail
+		String mail = args[2] ;			//Alert Mail Address
 		int jobStatus = -1 ;
 
 		StartCMD sc = new StartCMD(cmd, jobName) ;

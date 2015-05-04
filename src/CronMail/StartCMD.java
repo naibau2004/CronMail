@@ -27,7 +27,7 @@ public class StartCMD {
 		this.errLogPath = logDir + "/" + jobName + ".log" ;	
 	}
 	
-	//檢查log是否為空白
+	//檢查是否有Error log產生
 	public int checkErrLogStatus (){
 		CheckCreate cc = new CheckCreate () ;
 		//預設回傳值為正常(0)
