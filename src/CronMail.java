@@ -64,7 +64,7 @@ public class CronMail {
 		}
 		
 		try{
-			dateUtil today = new dateUtil () ;
+			DateUtil today = new DateUtil () ;
 			File logFile = new File (errorLogPath) ;
 			logFile.renameTo(new File (logFile.getParent() + "/" + today.today("-") + "_" + logFile.getName()));
 			
