@@ -1,3 +1,5 @@
+//檢查檔案或資料夾是否存在，boolean值用來判別是否自動新增
+
 package CronMail;
 
 import java.nio.file.Files;

@@ -8,15 +8,11 @@ public class CronMail {
 			System.exit(0);
 		}
 		
-		String cmd ;
-		String jobName ;
-		String mail ;
+		String cmd = args[0] ;			//Job's CMD
+		String jobName = args[1] ;		//Job's Name
+		String mail = args[2] ;			//Alert Mail
 		int jobStatus = -1 ;
-		
-		cmd = args[0] ;
-		jobName = args[1] ;
-		mail = args[2] ;
-		
+
 		StartCMD sc = new StartCMD(cmd, jobName) ;
 		int returnNum = sc.checkErrLogStatus();
 		
