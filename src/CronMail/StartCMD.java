@@ -26,7 +26,7 @@ public class StartCMD {
 	}
 	
 	public int checkErrLogStatus (){
-		checkCreate cc = new checkCreate () ;
+		CheckCreate cc = new CheckCreate () ;
 		int tempReturn = 0 ;
 		
 		if (! (cc.dirCheck(logDir, true) == 0 ) ){
@@ -84,7 +84,7 @@ public class StartCMD {
 	}
 	
 	public void jobReturn (int returnCode){
-		checkCreate cc = new checkCreate () ;
+		CheckCreate cc = new CheckCreate () ;
 		String jobListPath = logDir + "/" + "jobList" ;
 		Path pathTemp = Paths.get(jobListPath) ;
 		String okStatus = jobName + " : OK " + "\n" ;

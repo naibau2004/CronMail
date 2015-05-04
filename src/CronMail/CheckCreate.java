@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class checkCreate {
+public class CheckCreate {
 	
 	private String filePath ;
 	private boolean creater ;
