@@ -17,6 +17,7 @@ public class StartCMD {
 	private String errLogPath ;
 	private String jobName ;
 	
+	//
 	public StartCMD (String cmdPath , String jobName){
 		this.cmdPath = cmdPath ;
 		this.jobName = jobName ;
@@ -57,6 +58,7 @@ public class StartCMD {
 		String line = null ;	//log的暫存文字串
     	try {
     		
+    		//執行程式
     		proc = Runtime.getRuntime().exec(cmdArray);
     		
     		//標準錯誤輸出
@@ -99,8 +101,6 @@ public class StartCMD {
 		}
 	}
 
-	
-	
 	public void jobReturn (int returnCode){
 		CheckCreate cc = new CheckCreate () ;
 		String jobListPath = logDir + "/" + "jobList" ;
