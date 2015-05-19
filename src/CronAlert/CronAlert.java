@@ -19,6 +19,9 @@ public class CronAlert {
 			System.exit(0);
 		}
 		
+		LinuxScript ls = new LinuxScript ( scriptPath , jobName ) ;
+		
+
 		
 		
 	}

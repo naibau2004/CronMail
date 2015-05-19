@@ -10,6 +10,24 @@ package CronAlert;
 
 public class LinuxScript {
 
+	String scriptPath ;
+	String jobName ;
+	
+	public LinuxScript(String scriptPath , String jobName ) {
+		
+		this.scriptPath = scriptPath ;
+		this.jobName = jobName ;
+		
+	}
+
+	public String getScriptPath() {
+		return scriptPath;
+	}
+
+	public String getJobName() {
+		return jobName;
+	}
+	
 	
 	
 }
