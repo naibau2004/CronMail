@@ -110,6 +110,7 @@ public class StartCMD {
 		
 		if ( ! (cc.fileCheck(jobListPath, true) == 0) ){
 			System.out.println("can not create jobList !");
+			
 		}else{
 			if ( returnCode == 0){
 				try {
