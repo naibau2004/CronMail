@@ -3,8 +3,10 @@ package CronMail;
 public class CronMail {
 	
 	public static void main ( String [] args ){		
+		
 		if ( args.length != 3){
 			System.out.println("Arguments Error !");
+			System.out.println("[],[Job's Name],[Mail Address]");
 			System.exit(0);
 		}
 		

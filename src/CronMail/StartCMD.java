@@ -1,5 +1,13 @@
 package CronMail;
 
+/**最後撰寫時間：2015/05/19
+ *  用途:
+ *  
+ *  此class用來
+ *  
+ *  
+ */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,12 +20,12 @@ import java.nio.file.StandardOpenOption;
 
 public class StartCMD {
 
-	private String cmdPath ;
-	private String logDir ;
-	private String errLogPath ;
+	private String cmdPath ;		//Scripts路徑
+	private String logDir ;			//Log路徑
+	private String errLogPath ;		//Log檔名
 	private String jobName ;
 	
-	//
+	//Constructor
 	public StartCMD (String cmdPath , String jobName){
 		this.cmdPath = cmdPath ;
 		this.jobName = jobName ;
@@ -30,9 +38,9 @@ public class StartCMD {
 	
 	//檢查是否有Error log產生
 	public int checkErrLogStatus (){
-		CheckCreate cc = new CheckCreate () ;
-		//預設回傳值為正常(0)
-		int tempReturn = 0 ;
+		CheckCreate cc = new CheckCreate () ; //建立檢查檔案的物件
+		
+		int tempReturn = 0 ;					//預設回傳值為正常(0)
 		
 		//若資料夾或檔案檢查並新增失敗的話(回傳值不為0)，則回傳-1
 		if (! (cc.dirCheck(logDir, true) == 0 ) ){
@@ -101,6 +109,7 @@ public class StartCMD {
 		}
 	}
 
+	//將Job的結果寫入Log檔
 	public void jobReturn (int returnCode){
 		CheckCreate cc = new CheckCreate () ;
 		String jobListPath = logDir + "/" + "jobList" ;

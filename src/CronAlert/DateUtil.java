@@ -1,4 +1,4 @@
-package CronMail;
+package CronAlert;
 //testDate		產生今日日期字串
 
 import java.util.Calendar;
